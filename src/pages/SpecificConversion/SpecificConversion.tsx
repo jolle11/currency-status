@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { CurrencyCard, Header, Footer } from '../../components';
+import { Header, Footer } from '../../components';
 
 import './SpecificConversion.scss';
 
@@ -7,6 +6,7 @@ const SpecificConversion = () => {
     return (
         <div>
             <Header />
+            <h1>Specific Conversion</h1>
             <Footer />
         </div>
     );
