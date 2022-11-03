@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { CurrencyCard, Header, Footer } from '../../components';
 
 import './Home.scss';
@@ -12,10 +13,7 @@ interface SelectedCurrency {
     name: string;
 }
 
-interface CurrencyList {
-    flag: string;
-    acronym: string;
-    name: string;
+interface CurrencyList extends SelectedCurrency {
     amount: number;
 }
 
@@ -24,12 +22,15 @@ interface Rates {
 }
 
 const Home = () => {
-    const [currencies, setCurrencies] = useState(currenciesObject);
+    const [currencies, setCurrencies] = useState<SelectedCurrency[]>(currenciesObject);
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>();
     const [currencyList, setCurrencyList] = useState<CurrencyList[]>([]);
     const [rates, setRates] = useState<Rates[]>([]);
+    const [inputNumber, setInputNumber] = useState<number>(1);
 
     useEffect(() => {
+        // TODO Get currency del localStorage
+        // TODO Setejar selectedCurrency
         axios
             .get(`https://api.frankfurter.app/latest?from=${selectedCurrency?.acronym}`)
             .then((response: AxiosResponse) => {
@@ -58,7 +59,18 @@ const Home = () => {
             .catch((error: any) => {
                 console.log(error);
             });
-    }, [selectedCurrency, rates]);
+    }, [selectedCurrency]);
+
+    const handleInputChange = (e: React.ChangeEvent) => {
+        console.log(Number((e.target as HTMLInputElement).value));
+        const limit: number = 11;
+        setInputNumber(Number((e.target as HTMLInputElement).value.slice(0, limit)));
+    };
+
+    const handleCurrencySelect = (currency: object, index: number) => {
+        setSelectedCurrency(currencies[index]);
+        localStorage.setItem('currency', JSON.stringify(currency));
+    };
 
     return (
         <div>
@@ -66,7 +78,7 @@ const Home = () => {
             {!selectedCurrency && (
                 <>
                     {currencies.map((currency, index) => (
-                        <button onClick={() => setSelectedCurrency(currencies[index])}>
+                        <button key={index} onClick={() => handleCurrencySelect(currency, index)}>
                             {currency.flag}
                         </button>
                     ))}
@@ -78,14 +90,29 @@ const Home = () => {
                         <h1>{selectedCurrency.flag}</h1>
                         <label>
                             {selectedCurrency.acronym} - {selectedCurrency.name}
-                            <input type="text" name="currency" />
+                            <input
+                                type="number"
+                                name="currency"
+                                value={inputNumber}
+                                defaultValue={1}
+                                onChange={handleInputChange}
+                                min={1}
+                                max={11}
+                                maxLength={11}
+                                style={{ width: '100px' }}
+                            />
                         </label>
                     </form>
                     {/* Map de CurrencyCard */}
                     {currencyList.map((currency, index) => (
                         <div>
                             <p>{currency.flag}</p>
-                            <p>{rates[index].rate}</p>
+                            <p>{currency.acronym}</p>
+                            <p>
+                                {Math.round(
+                                    (inputNumber * rates[index].rate + Number.EPSILON) * 100
+                                ) / 100}
+                            </p>
                         </div>
                     ))}
                 </>
