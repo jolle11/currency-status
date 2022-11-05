@@ -10,43 +10,50 @@ import currenciesObject from '../../utils/currenciesObject';
 interface SelectedCurrency {
     flag: string;
     acronym: string;
-    name: string;
-}
-
-interface CurrencyList extends SelectedCurrency {
-    amount: number;
+    name?: string;
+    rate?: number;
 }
 
 interface Rates {
     rate: number;
 }
 
+const apiUrl: string = 'https://api.frankfurter.app/latest';
+
 const Home = () => {
     const [currencies, setCurrencies] = useState<SelectedCurrency[]>(currenciesObject);
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>();
-    const [currencyList, setCurrencyList] = useState<CurrencyList[]>([]);
+    const [currencyList, setCurrencyList] = useState<SelectedCurrency[]>([]);
     const [rates, setRates] = useState<Rates[]>([]);
-    const [inputNumber, setInputNumber] = useState<number>(1);
+    const [inputNumber, setInputNumber] = useState<number>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const handleInputChange = (e: React.ChangeEvent) => {
-        console.log(Number((e.target as HTMLInputElement).value));
         const limit: number = 11;
         setInputNumber(Number((e.target as HTMLInputElement).value.slice(0, limit)));
     };
 
     const handleCurrencySelect = (currency: object, index: number) => {
         setSelectedCurrency(currencies[index]);
+        const selectedCurrencyExcluded: SelectedCurrency[] = currencies.filter((selected) => {
+            return selected !== currency;
+        });
+        setCurrencyList(selectedCurrencyExcluded);
+        setIsLoading(false);
         localStorage.setItem('currency', JSON.stringify(currency));
     };
 
     useEffect(() => {
         // TODO Get currency del localStorage
-        // TODO Setejar selectedCurrency
-
+        // TODO Set selectedCurrency
         axios
-            .get(`https://api.frankfurter.app/latest?from=${selectedCurrency?.acronym}`)
+            .get(
+                `${apiUrl}?from=${
+                    selectedCurrency?.acronym !== undefined ? selectedCurrency.acronym : 'EUR'
+                }`
+            )
             .then((response: AxiosResponse) => {
+                console.log(response.data);
                 const ratesObject: Rates = response.data.rates;
                 let actualRates: Rates[] = [];
                 // Create array of rate objects
@@ -54,29 +61,11 @@ const Home = () => {
                     actualRates.push({ rate: value });
                 });
                 setRates(actualRates);
-                // Exclude selected currency from list
-                const selectedCurrencyExcluded: SelectedCurrency[] = currencies.filter(
-                    (selected) => {
-                        return selected !== selectedCurrency;
-                    }
-                );
-                // Create list with amount included
-                const currencyListWithAmount: CurrencyList[] = [];
-                selectedCurrencyExcluded.map((value, index) => {
-                    currencyListWithAmount.push({
-                        flag: value.flag,
-                        acronym: value.acronym,
-                        name: value.name,
-                        amount: rates[index].rate,
-                    });
-                });
-                setCurrencyList(currencyListWithAmount);
-                setIsLoading(false);
             })
             .catch((error: any) => {
                 console.log(error);
             });
-    }, [selectedCurrency]);
+    }, [selectedCurrency, setSelectedCurrency]);
 
     return (
         <div>
@@ -92,7 +81,7 @@ const Home = () => {
             )}
             {selectedCurrency && (
                 <>
-                    {/* TODO: Posar form en un component */}
+                    {/* TODO: Posar form en un component? */}
                     <form>
                         <h1>{selectedCurrency.flag}</h1>
                         <label>
@@ -101,7 +90,7 @@ const Home = () => {
                                 type="number"
                                 name="currency"
                                 value={inputNumber}
-                                defaultValue={1}
+                                placeholder="0"
                                 onChange={handleInputChange}
                                 min={1}
                                 max={11}
@@ -111,16 +100,19 @@ const Home = () => {
                         </label>
                     </form>
                     {/* Map de CurrencyCard */}
-                    {/* TODO: Buscar la forma de renderitzar el component al mateix temps que s'actualitzen els rates*/}
                     {currencyList.map((currency, index) => (
                         <div key={index}>
                             <p>{currency.flag}</p>
                             <p>{currency.acronym}</p>
-                            <p>
-                                {Math.round(
-                                    (inputNumber * rates[index].rate + Number.EPSILON) * 100
-                                ) / 100}
-                            </p>
+                            {inputNumber ? (
+                                <p>
+                                    {Math.round(
+                                        (inputNumber * rates[index].rate + Number.EPSILON) * 100
+                                    ) / 100}
+                                </p>
+                            ) : (
+                                <p>0</p>
+                            )}
                         </div>
                     ))}
                 </>
