@@ -1,7 +1,8 @@
 interface CurrenciesObject {
     flag: string;
     acronym: string;
-    name: string;
+    name?: string;
+    rate?: number;
 }
 
 const currenciesObject: CurrenciesObject[] = [
