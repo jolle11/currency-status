@@ -6,17 +6,16 @@ import { VitePluginFonts } from 'vite-plugin-fonts';
 export default defineConfig({
     plugins: [
         react(),
-        // VitePluginFonts({
-        //     google: {
-        //         families: [
-        //             '',
-        //             {
-        //                 name: '',
-        //                 styles: '',
-        //                 defer: true,
-        //             },
-        //         ],
-        //     },
-        // }),
+        VitePluginFonts({
+            google: {
+                families: [
+                    {
+                        name: 'Merriweather',
+                        styles: 'wght@400;700',
+                        defer: true,
+                    },
+                ],
+            },
+        }),
     ],
 });
