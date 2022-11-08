@@ -3,6 +3,9 @@ import { AiOutlineSelect, AiOutlineCopy } from 'react-icons/ai';
 import './CurrencyCard.scss';
 import './Loader.scss';
 
+// TOASTIFY
+import { toast } from 'react-toastify';
+
 interface Props {
     currency: SelectedCurrency;
     rates: Rates[];
@@ -29,8 +32,16 @@ interface Rates {
 }
 
 const copyResult = ({ rate, acronym }: CopyResult) => {
-    console.log(`${rate} - ${acronym}`);
     navigator.clipboard.writeText(`${rate} - ${acronym}`);
+    toast('Result copied to the clipboard 📋', {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
 };
 
 const CurrencyCard = ({

@@ -1,11 +1,14 @@
 import axios, { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
+import { AiOutlineCopy } from 'react-icons/ai';
 
 import { Header, Footer } from '../../components';
 
-import './SpecificConversion.scss';
-
 import currenciesObject from '../../utils/currenciesObject';
+
+import './SpecificConversion.scss';
 
 interface Rate {
     rate: number;
@@ -42,6 +45,21 @@ const SpecificConversion = () => {
         setSelectedCurrencyTo((e.target as HTMLInputElement).value);
     };
 
+    const copyConversion = () => {
+        navigator.clipboard.writeText(
+            `${currencyFrom} ${selectedCurrencyFrom} = ${currencyTo} ${selectedCurrencyTo}`
+        );
+        toast('Conversion copied to the clipboard 📋', {
+            position: 'top-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
+
     useEffect(() => {
         // TODO Get currency del localStorage
         // TODO Set selectedCurrency
@@ -61,45 +79,61 @@ const SpecificConversion = () => {
     }, [selectedCurrencyFrom, setSelectedCurrencyFrom, selectedCurrencyTo, setSelectedCurrencyTo]);
 
     return (
-        <div className="specific">
+        <>
             <Header />
-            <h1 className="specific__title">Specific Conversion</h1>
-            <form className="specific__form">
-                <div className="specific__from">
-                    <label htmlFor="From">From</label>
-                    <select name="currencyFrom" onChange={handleFromSelectChange}>
-                        {currenciesObject.map((currency) => (
-                            <option key={currency.acronym} value={currency.acronym}>
-                                {currency.flag} {currency.acronym}
-                            </option>
-                        ))}
-                    </select>
-                    <input
-                        type="number"
-                        name="from"
-                        placeholder="0"
-                        className="specific__input"
-                        value={currencyFrom}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <span>➡️</span>
-                <div className="specific__to">
-                    <label htmlFor="To">To</label>
-                    <select name="currencyTo" onChange={handleToSelectChange}>
-                        {currenciesObject.map((currency) => (
-                            <option key={currency.acronym} value={currency.acronym}>
-                                {currency.flag} {currency.acronym}
-                            </option>
-                        ))}
-                    </select>
-                    <p className="specific__result">
-                        {Math.round((currencyTo + Number.EPSILON) * 100) / 100}
-                    </p>
-                </div>
-            </form>
+            <div className="specific">
+                <h1 className="specific__title">$pecific Conv€rsion</h1>
+                <form className="specific__form">
+                    <div className="specific__from">
+                        <label htmlFor="From" className="specific__label">
+                            From:
+                        </label>
+                        <select
+                            name="currencyFrom"
+                            onChange={handleFromSelectChange}
+                            className="specific__select"
+                        >
+                            {currenciesObject.map((currency) => (
+                                <option key={currency.acronym} value={currency.acronym}>
+                                    {currency.flag} {currency.acronym}
+                                </option>
+                            ))}
+                        </select>
+                        <input
+                            type="number"
+                            name="from"
+                            placeholder="0"
+                            className="specific__input"
+                            value={currencyFrom}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <span className="specific__icon" onClick={copyConversion}>
+                        <AiOutlineCopy />
+                    </span>
+                    <div className="specific__to">
+                        <label htmlFor="To" className="specific__label">
+                            To:
+                        </label>
+                        <select
+                            name="currencyTo"
+                            onChange={handleToSelectChange}
+                            className="specific__select"
+                        >
+                            {currenciesObject.map((currency) => (
+                                <option key={currency.acronym} value={currency.acronym}>
+                                    {currency.flag} {currency.acronym}
+                                </option>
+                            ))}
+                        </select>
+                        <p className="specific__result">
+                            {Math.round((currencyTo + Number.EPSILON) * 100) / 100}
+                        </p>
+                    </div>
+                </form>
+            </div>
             <Footer />
-        </div>
+        </>
     );
 };
 
