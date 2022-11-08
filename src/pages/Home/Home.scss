@@ -3,19 +3,15 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    @media (min-width: 320px) {
-    }
-    @media (min-width: 768px) {
-    }
-    @media (min-width: 1200px) {
-    }
     &__form {
+        margin: 30px auto;
         width: 100%;
         text-align: center;
     }
     &__title {
         font-size: 150px;
         line-height: 75%;
+        margin-bottom: 10px;
     }
     &__selected {
         font-weight: bold;
@@ -23,7 +19,7 @@
     &__input {
         text-align: right;
         padding: 5px;
-        margin: 10px 0;
+        margin: 20px 0 10px 0;
         width: 150px;
         height: auto;
         font-size: 20px;
@@ -33,7 +29,6 @@
     }
     &__list {
         display: flex;
-        // justify-content: c;
         flex-wrap: wrap;
     }
     &__select {

@@ -10,10 +10,9 @@
     transition: all 0.2s ease;
     border-radius: 10px;
     &:hover {
-        background: #ffffff;
+        background: #f7f7f7;
         box-shadow: #a7a7a7 0px 8px 24px;
         transform: translateY(3px);
-        transition: all 0.2s ease;
     }
     &__options {
         position: relative;
