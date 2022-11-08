@@ -41,6 +41,7 @@ const Home = () => {
         });
         setCurrencyList(selectedCurrencyExcluded);
         setInputNumber(1);
+        window.scrollTo(0, 0);
         // localStorage.setItem('currency', JSON.stringify(currency));
     };
 
@@ -51,6 +52,7 @@ const Home = () => {
             return selected.acronym !== currency.acronym;
         });
         setCurrencyList(changeCurrencyExcluded);
+        window.scrollTo(0, 0);
         // localStorage.setItem('currency', JSON.stringify(currency));
     };
 
