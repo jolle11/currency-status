@@ -25,7 +25,7 @@ const Home = () => {
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>();
     const [currencyList, setCurrencyList] = useState<SelectedCurrency[]>([]);
     const [rates, setRates] = useState<Rates[]>([]);
-    const [inputNumber, setInputNumber] = useState<number>();
+    const [inputNumber, setInputNumber] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const handleInputChange = (e: React.ChangeEvent) => {
@@ -34,13 +34,24 @@ const Home = () => {
     };
 
     const handleCurrencySelect = (currency: object, index: number) => {
+        setIsLoading(true);
         setSelectedCurrency(currencies[index]);
         const selectedCurrencyExcluded: SelectedCurrency[] = currencies.filter((selected) => {
             return selected !== currency;
         });
         setCurrencyList(selectedCurrencyExcluded);
-        setIsLoading(false);
-        localStorage.setItem('currency', JSON.stringify(currency));
+        setInputNumber(1);
+        // localStorage.setItem('currency', JSON.stringify(currency));
+    };
+
+    const handleCurrencyChange = (currency: SelectedCurrency) => {
+        setIsLoading(true);
+        setSelectedCurrency(currency);
+        const changeCurrencyExcluded: SelectedCurrency[] = currencies.filter((selected) => {
+            return selected.acronym !== currency.acronym;
+        });
+        setCurrencyList(changeCurrencyExcluded);
+        // localStorage.setItem('currency', JSON.stringify(currency));
     };
 
     useEffect(() => {
@@ -53,7 +64,6 @@ const Home = () => {
                 }`
             )
             .then((response: AxiosResponse) => {
-                console.log(response.data);
                 const ratesObject: Rates = response.data.rates;
                 let actualRates: Rates[] = [];
                 // Create array of rate objects
@@ -61,6 +71,7 @@ const Home = () => {
                     actualRates.push({ rate: value });
                 });
                 setRates(actualRates);
+                setIsLoading(false);
             })
             .catch((error: any) => {
                 console.log(error);
@@ -68,57 +79,55 @@ const Home = () => {
     }, [selectedCurrency, setSelectedCurrency]);
 
     return (
-        <div>
+        <>
             <Header />
-            {!selectedCurrency && (
-                <>
+            {selectedCurrency ? (
+                <div className="currency">
+                    <form className="currency__form">
+                        <h1 className="currency__title">{selectedCurrency.flag}</h1>
+                        <label className="currency__selected">
+                            {selectedCurrency.acronym} - {selectedCurrency.name} <br />
+                        </label>
+                        <input
+                            type="number"
+                            name="currency"
+                            value={inputNumber}
+                            placeholder="0"
+                            onChange={handleInputChange}
+                            min={1}
+                            max={11}
+                            maxLength={11}
+                            className="currency__input"
+                        />
+                    </form>
+                    {currencyList.map((currency, index) => (
+                        <div key={index} className="currency__list">
+                            <CurrencyCard
+                                currency={currency}
+                                index={index}
+                                rates={rates}
+                                inputNumber={inputNumber}
+                                handleCurrencyChange={handleCurrencyChange}
+                                isLoading={isLoading}
+                            />
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="currency">
                     {currencies.map((currency, index) => (
-                        <button key={index} onClick={() => handleCurrencySelect(currency, index)}>
+                        <button
+                            key={index}
+                            className="currency__select"
+                            onClick={() => handleCurrencySelect(currency, index)}
+                        >
                             {currency.flag}
                         </button>
                     ))}
-                </>
-            )}
-            {selectedCurrency && (
-                <>
-                    {/* TODO: Posar form en un component? */}
-                    <form>
-                        <h1>{selectedCurrency.flag}</h1>
-                        <label>
-                            {selectedCurrency.acronym} - {selectedCurrency.name} <br />
-                            <input
-                                type="number"
-                                name="currency"
-                                value={inputNumber}
-                                placeholder="0"
-                                onChange={handleInputChange}
-                                min={1}
-                                max={11}
-                                maxLength={11}
-                                style={{ width: '100px' }}
-                            />
-                        </label>
-                    </form>
-                    {/* Map de CurrencyCard */}
-                    {currencyList.map((currency, index) => (
-                        <div key={index}>
-                            <p>{currency.flag}</p>
-                            <p>{currency.acronym}</p>
-                            {inputNumber ? (
-                                <p>
-                                    {Math.round(
-                                        (inputNumber * rates[index].rate + Number.EPSILON) * 100
-                                    ) / 100}
-                                </p>
-                            ) : (
-                                <p>0</p>
-                            )}
-                        </div>
-                    ))}
-                </>
+                </div>
             )}
             <Footer />
-        </div>
+        </>
     );
 };
 
