@@ -66,11 +66,10 @@ const CurrencyCard = ({
                 </span>
             </div>
             <p className="card__flag">{flag}</p>
-            {inputNumber && !isLoading ? (
-                <p className="card__rate">{rateResult}</p>
-            ) : (
-                // <p className="card__rate"></p>
+            {isLoading ? (
                 <div className="line-wobble"> </div>
+            ) : (
+                <p className="card__rate">{rateResult}</p>
             )}
             <p className="card__acronym">{acronym}</p>
             <p className="card__name">{name}</p>
