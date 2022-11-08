@@ -67,8 +67,8 @@ const Home = () => {
             )
             .then((response: AxiosResponse) => {
                 const ratesObject: Rates = response.data.rates;
-                let actualRates: Rates[] = [];
                 // Create array of rate objects
+                let actualRates: Rates[] = [];
                 Object.entries(ratesObject).forEach(([key, value]) => {
                     actualRates.push({ rate: value });
                 });
@@ -88,8 +88,9 @@ const Home = () => {
                     <form className="currency__form">
                         <h1 className="currency__title">{selectedCurrency.flag}</h1>
                         <label className="currency__selected">
-                            {selectedCurrency.acronym} - {selectedCurrency.name} <br />
+                            {selectedCurrency.acronym} - {selectedCurrency.name}
                         </label>
+                        <br />
                         <input
                             type="number"
                             name="currency"
