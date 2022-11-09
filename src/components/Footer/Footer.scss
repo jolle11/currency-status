@@ -7,6 +7,15 @@
     &__text {
         text-align: center;
     }
+    &__info {
+        text-align: center;
+        font-size: 11px;
+        padding: 5px 0;
+        &--link {
+            text-decoration: none;
+            color: black;
+        }
+    }
     &__links {
         display: flex;
         flex-wrap: wrap;
