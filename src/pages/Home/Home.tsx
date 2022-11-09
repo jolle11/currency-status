@@ -97,9 +97,6 @@ const Home = () => {
                             value={inputNumber}
                             placeholder="0"
                             onChange={handleInputChange}
-                            min={1}
-                            max={11}
-                            maxLength={11}
                             className="currency__input"
                         />
                     </form>
