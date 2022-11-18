@@ -30,10 +30,8 @@ const Home = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const handleInputChange = (e: React.ChangeEvent) => {
-		const limit: number = 11;
-		setInputNumber(
-			Number((e.target as HTMLInputElement).value.slice(0, limit)),
-		);
+		const inputNumber = (e.target as HTMLInputElement).value.replace(/\D/g, "");
+		setInputNumber(Number(inputNumber));
 	};
 
 	const handleCurrencySelect = (currency: object, index: number) => {
@@ -101,7 +99,7 @@ const Home = () => {
 						</label>
 						<br />
 						<input
-							type="number"
+							type="text"
 							name="currency"
 							min='0'
 							value={inputNumber}

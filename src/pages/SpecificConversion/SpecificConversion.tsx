@@ -25,13 +25,11 @@ const SpecificConversion = () => {
 	const [rate, setRate] = useState<Rate>({ rate: 1 });
 
 	const handleInputChange = (e: React.ChangeEvent) => {
-		const limit: number = 11;
+		const inputNumber = (e.target as HTMLInputElement).value.replace(/\D/g, "");
 		if (selectedCurrencyFrom === selectedCurrencyTo) {
 			setRate({ rate: 1 });
 		}
-		setCurrencyFrom(
-			Number((e.target as HTMLInputElement).value.slice(0, limit)),
-		);
+		setCurrencyFrom(Number(inputNumber));
 		setCurrencyTo(Number((e.target as HTMLInputElement).value) * rate.rate);
 	};
 
