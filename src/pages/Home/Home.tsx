@@ -7,16 +7,7 @@ import "./Home.scss";
 
 import currenciesObject from "../../utils/currenciesObject";
 
-interface SelectedCurrency {
-	flag: string;
-	acronym: string;
-	name?: string;
-	rate?: number;
-}
-
-interface Rates {
-	rate: number;
-}
+import { SelectedCurrency, Rates } from ".././../ts";
 
 const apiUrl: string = "https://api.frankfurter.app/latest";
 

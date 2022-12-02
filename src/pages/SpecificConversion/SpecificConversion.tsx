@@ -10,9 +10,7 @@ import currenciesObject from "../../utils/currenciesObject";
 
 import "./SpecificConversion.scss";
 
-interface Rate {
-	rate: number;
-}
+import { Rate } from "../../ts";
 
 const apiUrl: string = "https://api.frankfurter.app/latest?amount=1&from=";
 
