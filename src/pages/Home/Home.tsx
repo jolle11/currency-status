@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 
 import { CurrencyCard, Footer, Header } from "../../components";
@@ -73,7 +73,7 @@ const Home = () => {
 				setRates(actualRates);
 				setIsLoading(false);
 			})
-			.catch((error: any) => {
+			.catch((error: AxiosError) => {
 				console.log(error);
 			});
 	}, [selectedCurrency, setSelectedCurrency]);

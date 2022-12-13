@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -72,7 +72,7 @@ const SpecificConversion = () => {
 					setRate({ rate: responseValue });
 					setCurrencyTo(currencyFrom * responseValue);
 				})
-				.catch((error: any) => {
+				.catch((error: AxiosError) => {
 					console.log(error);
 				});
 		}
