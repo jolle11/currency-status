@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import { AiOutlineCopy } from "react-icons/ai";
 
-import { Header, Footer } from "../../components";
+import { Footer, Header } from "../../components";
 
 import currenciesObject from "../../utils/currenciesObject";
 

@@ -1,19 +1,21 @@
 html {
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+	box-sizing: border-box;
+	scroll-behavior: smooth;
 }
+
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
-    margin: 0;
-    padding: 0;
+	box-sizing: inherit;
+	margin: 0;
+	padding: 0;
 }
+
 body {
-    font-family: 'Merriweather', serif;
-    background: rgb(245, 245, 245);
+	font-family: 'Merriweather', serif;
+	background: rgb(245, 245, 245);
 }
 
 h1 {
-    font-weight: bold;
+	font-weight: bold;
 }

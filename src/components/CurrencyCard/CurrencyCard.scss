@@ -1,43 +1,51 @@
 .card {
-    position: relative;
-    min-width: 150px;
-    min-height: 160px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-    transition: all 0.2s ease;
-    border-radius: 10px;
-    &:hover {
-        background: #f7f7f7;
-        box-shadow: #a7a7a7 0px 8px 24px;
-        transform: translateY(3px);
-    }
-    &__options {
-        position: relative;
-        font-size: 20px;
-        top: 0;
-        &--change {
-            cursor: pointer;
-            left: -40px;
-        }
-        &--copy {
-            cursor: pointer;
-            right: -40px;
-        }
-    }
-    &__flag {
-        font-size: 50px;
-        line-height: 40px;
-    }
-    &__rate {
-        font-size: 20px;
-    }
-    &__acronym {
-        margin: 5px 0;
-    }
-    &__name {
-        font-size: 11px;
-    }
+	position: relative;
+	min-width: 150px;
+	min-height: 160px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 10px;
+	transition: all 0.2s ease;
+	border-radius: 10px;
+
+	&:hover {
+		background: #f7f7f7;
+		box-shadow: #a7a7a7 0px 8px 24px;
+		transform: translateY(3px);
+	}
+
+	&__options {
+		position: relative;
+		font-size: 20px;
+		top: 0;
+
+		&--change {
+			cursor: pointer;
+			left: -40px;
+		}
+
+		&--copy {
+			cursor: pointer;
+			right: -40px;
+		}
+	}
+
+	&__flag {
+		font-size: 50px;
+		line-height: 40px;
+	}
+
+	&__rate {
+		font-size: 20px;
+	}
+
+	&__acronym {
+		margin: 5px 0;
+	}
+
+	&__name {
+		font-size: 11px;
+	}
 }

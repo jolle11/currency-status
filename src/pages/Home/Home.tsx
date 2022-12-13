@@ -1,13 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 
-import { CurrencyCard, Header, Footer } from "../../components";
+import { CurrencyCard, Footer, Header } from "../../components";
 
 import "./Home.scss";
 
 import currenciesObject from "../../utils/currenciesObject";
 
-import { SelectedCurrency, Rates } from ".././../ts";
+import { Rates, SelectedCurrency } from ".././../ts";
 
 const apiUrl: string = "https://api.frankfurter.app/latest";
 

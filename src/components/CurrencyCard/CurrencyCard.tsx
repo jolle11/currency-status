@@ -1,4 +1,4 @@
-import { AiOutlineSelect, AiOutlineCopy } from "react-icons/ai";
+import { AiOutlineCopy, AiOutlineSelect } from "react-icons/ai";
 
 import "./CurrencyCard.scss";
 import "./Loader.scss";
@@ -15,7 +15,7 @@ interface Props {
 	isLoading: boolean;
 }
 
-import { SelectedCurrency, CopyResult, Rates } from "../../ts";
+import { CopyResult, Rates, SelectedCurrency } from "../../ts";
 
 const copyResult = ({ rate, acronym }: CopyResult) => {
 	navigator.clipboard.writeText(`${rate} - ${acronym}`);
