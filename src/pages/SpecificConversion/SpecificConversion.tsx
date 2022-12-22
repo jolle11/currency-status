@@ -47,7 +47,9 @@ const SpecificConversion = () => {
 
 	const copyConversion = () => {
 		navigator.clipboard.writeText(
-			`${currencyFrom} ${selectedCurrencyFrom} = ${currencyTo} ${selectedCurrencyTo}`,
+			`${currencyFrom} ${selectedCurrencyFrom} = ${
+				Math.round((currencyTo + Number.EPSILON) * 100) / 100
+			} ${selectedCurrencyTo}`,
 		);
 		toast("Conversion copied to the clipboard 📋", {
 			position: "top-center",
