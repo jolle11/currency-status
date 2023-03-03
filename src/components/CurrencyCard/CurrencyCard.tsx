@@ -11,11 +11,13 @@ interface Props {
 	rates: Rates[];
 	index: number;
 	inputNumber?: number;
-	handleCurrencyChange: any;
+	handleCurrencyChange: HandleCurrencyChange;
 	isLoading: boolean;
 }
 
 import { CopyResult, Rates, SelectedCurrency } from "../../ts";
+
+type HandleCurrencyChange = (currency: SelectedCurrency) => void;
 
 const copyResult = ({ rate, acronym }: CopyResult) => {
 	navigator.clipboard.writeText(`${rate} - ${acronym}`);
@@ -39,19 +41,23 @@ const CurrencyCard = ({
 	isLoading,
 }: Props) => {
 	const { flag, name, acronym } = currency;
-	const rateResult: number =
-		Math.round(
-			((inputNumber || 0) * rates[index].rate + Number.EPSILON) * 100,
-		) / 100;
+	const rateResult: number = rates?.[index]
+		? Math.round(
+				((inputNumber || 0) * rates[index].rate + Number.EPSILON) * 100,
+		  ) / 100
+		: 0;
+
 	return (
 		<div className="card">
 			<div className="card__options">
+				{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 				<span
 					className="card__options card__options--change"
 					onClick={() => handleCurrencyChange({ flag, acronym, name })}
 				>
 					<AiOutlineSelect />
 				</span>
+				{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 				<span
 					className="card__options card__options--copy"
 					onClick={() =>

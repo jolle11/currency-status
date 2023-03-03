@@ -116,6 +116,7 @@ const SpecificConversion = () => {
 							onChange={handleInputChange}
 						/>
 					</div>
+					{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 					<span className="specific__icon" onClick={copyConversion}>
 						<AiOutlineCopy />
 					</span>
